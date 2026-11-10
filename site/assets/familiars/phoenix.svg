@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 250" fill="none">
+  <defs>
+    <linearGradient id="wing" x1="147" y1="128" x2="39" y2="47" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C72C55"/><stop offset=".55" stop-color="#F75A44"/><stop offset="1" stop-color="#FFE189"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="178" y1="105" x2="142" y2="229" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD87F"/><stop offset=".52" stop-color="#F8753D"/><stop offset="1" stop-color="#D23161"/>
+    </linearGradient>
+    <path id="wing-shape" d="M157 123C124 116 105 88 86 66 66 43 39 29 12 27c14 13 26 26 35 42l-23-9c13 17 28 29 44 36l-21-1c13 13 35 25 58 29l-19 7c20 9 45 10 71-8Z"/>
+    <path id="wing-inlay" d="M149 123C110 113 93 81 64 61c12 15 23 30 28 43l-14-4c14 14 39 23 71 23Z"/>
+  </defs>
+  <style>
+    .wing { transform-box: view-box; transform-origin: 155px 122px; animation: wings 2.4s ease-in-out infinite alternate }
+    .tail { transform-box: view-box; transform-origin: 156px 136px; animation: tail 3s ease-in-out infinite alternate }
+    @keyframes wings { from { transform: scaleY(.88) } to { transform: scaleY(1.08) } }
+    @keyframes tail { from { transform: rotate(-5deg) } to { transform: rotate(7deg) } }
+    @media (prefers-reduced-motion: reduce) { .wing, .tail { animation: none } }
+  </style>
+  <g class="tail" stroke-linecap="round">
+    <path d="M160 126c13 33-28 56-14 100-26-23-21-42-13-60-22 9-36 24-31 44-22-31 8-58 38-68 8-3 14-8 20-16Z" fill="url(#flame)"/>
+    <path d="M161 133c9 22 7 40-6 59-5 7-7 17-5 25 11-15 27-23 30-42 2-16-8-29-19-42Z" fill="#F98548"/>
+    <path d="M152 145c-27 21-30 42-16 66m25-62c9 14 7 31-3 48" stroke="#FFE5A0" stroke-width="1.7" opacity=".75"/>
+  </g>
+  <g class="wing">
+    <use href="#wing-shape" fill="url(#wing)" stroke="#FABC71" stroke-width="1.25"/>
+    <use href="#wing-inlay" fill="#FFD18B" opacity=".86"/>
+    <path d="M143 125C107 115 84 101 64 79m59 47c-19-3-34-9-48-17" stroke="#FFF1B1" stroke-width="1.5" opacity=".7" stroke-linecap="round"/>
+    <g transform="translate(318 0) scale(-1 1)">
+      <use href="#wing-shape" fill="url(#wing)" stroke="#FABC71" stroke-width="1.25"/>
+      <use href="#wing-inlay" fill="#FFD18B" opacity=".86"/>
+      <path d="M143 125C107 115 84 101 64 79m59 47c-19-3-34-9-48-17" stroke="#FFF1B1" stroke-width="1.5" opacity=".7" stroke-linecap="round"/>
+    </g>
+  </g>
+  <path d="M145 135c-9-9-9-19-1-30 7-11 15-16 14-29 0-9 6-16 16-15 9 1 12 9 12 15l10 5-14 4c-6 1-8 7-7 14 3 18-3 31-15 46l-15-10Z" fill="url(#flame)" stroke="#FFD789" stroke-width="1.5"/>
+  <path d="M166 64c-4-11 0-16 7-22-2 10 2 16 6 20m-15 2c-8-3-13-9-13-17 6 5 11 7 17 9" fill="#FFB959"/>
+  <path d="M151 134c3-13 10-23 17-31-2 13 2 21-12 37l-5-6Z" fill="#FFD68E"/>
+  <circle cx="177" cy="73" r="2.5" fill="#401634"/><circle cx="178" cy="72" r=".9" fill="#FFF8D8"/>
+  <g fill="#FFD389">
+    <path d="M53 126l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/>
+    <path d="M260 104l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/>
+    <path d="M219 157l1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5Z"/>
+    <circle cx="87" cy="165" r="2"/><circle cx="235" cy="131" r="2.6"/><circle cx="195" cy="187" r="1.6"/>
+  </g>
+</svg>

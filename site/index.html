@@ -5,24 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Ступка и колба — лавка алхимика</title>
   <meta name="description" content="Учебный магазин алхимика: ингредиенты, зелья, свитки и артефакты. Корзина, промокод, избранное и заказ.">
-  <meta name="theme-color" content="#edf1ec" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0f171c" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#fff0de" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#170e28" media="(prefers-color-scheme: dark)">
   <meta property="og:title" content="Ступка и колба — лавка алхимика">
   <meta property="og:description" content="Ингредиенты, зелья, свитки и артефакты для домашней алхимии.">
   <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./styles.css?v=ember">
   <script src="./js/config.js"></script>
   <script src="./js/ui/theme.js"></script>
   <script defer src="./js/catalog.js"></script>
   <script defer src="./js/core.js"></script>
   <script defer src="./js/store.js"></script>
   <script defer src="./js/api.js"></script>
+  <script defer src="./js/ui/product-models.js"></script>
+  <script defer src="./js/ui/product-view.js?v=ember"></script>
+  <script defer src="./js/ui/familiars.js"></script>
   <script defer src="./app.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#catalog-heading">К каталогу</a>
+  <div class="ambient-world" aria-hidden="true">
+    <span class="ambient-motes"></span>
+    <span class="ambient-motes ambient-motes-far"></span>
+  </div>
+  <a class="skip-link" href="#main">К содержимому</a>
 
-  <header class="masthead" data-shell>
+  <header class="masthead">
     <a class="brand" href="./">
       <img class="brand-mark" src="./assets/shop.svg" width="44" height="44" alt="">
       <span class="brand-name">Ступка и колба</span>
@@ -41,140 +48,177 @@
     </div>
   </header>
 
-  <section class="hero" aria-labelledby="hero-title" data-shell>
-    <div class="hero-copy">
-      <h1 class="hero-title" id="hero-title">Ступка и&nbsp;колба</h1>
-      <p class="hero-lead">Ингредиенты, зелья, свитки и артефакты для домашней алхимии. Добавляйте товары в&nbsp;корзину — итог пересчитывается сразу.</p>
-    </div>
-    <figure class="hero-shelf" aria-hidden="true">
-      <svg viewBox="0 0 440 230" role="presentation">
-        <g class="shelf-glow"><circle cx="232" cy="118" r="70"/></g>
-        <g class="shelf-bottles">
-          <path class="glass" d="M52 96h20v18c12 5 20 16 20 30v40a10 10 0 0 1-10 10H42a10 10 0 0 1-10-10v-40c0-14 8-25 20-30z"/>
-          <path class="liquid liquid-amber" d="M32 150h60v34a10 10 0 0 1-10 10H42a10 10 0 0 1-10-10z"/>
-          <rect class="cork" x="49" y="84" width="26" height="14" rx="4"/>
-          <path class="glass" d="M128 120h16v26l22 38a7 7 0 0 1-6 10h-48a7 7 0 0 1-6-10l22-38z"/>
-          <path class="liquid liquid-patina" d="M116 166h40l10 18a7 7 0 0 1-6 10h-48a7 7 0 0 1-6-10z"/>
-          <rect class="cork" x="126" y="110" width="20" height="12" rx="3"/>
-          <rect class="glass" x="220" y="70" width="24" height="40"/>
-          <circle class="glass" cx="232" cy="150" r="44"/>
-          <path class="liquid liquid-carmine" d="M188.4 156a44 44 0 0 0 87.2 0z"/>
-          <rect class="cork" x="216" y="56" width="32" height="16" rx="4"/>
-          <path class="sparkle" d="M290 64l3 9 9 3-9 3-3 9-3-9-9-3 9-3z"/>
-          <path class="sparkle" d="M176 90l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/>
-          <path class="glass" d="M316 92h14v24c0 4 10 6 10 16v52a10 10 0 0 1-10 10h-14a10 10 0 0 1-10-10v-52c0-10 10-12 10-16z"/>
-          <path class="liquid liquid-indigo" d="M306 146h34v38a10 10 0 0 1-10 10h-14a10 10 0 0 1-10-10z"/>
-          <rect class="cork" x="314" y="80" width="18" height="14" rx="3"/>
-          <path class="glass" d="M372 140h24v12c8 3 12 9 12 17v15a10 10 0 0 1-10 10h-28a10 10 0 0 1-10-10v-15c0-8 4-14 12-17z"/>
-          <path class="liquid liquid-amber" d="M360 172h48v12a10 10 0 0 1-10 10h-28a10 10 0 0 1-10-10z"/>
-          <rect class="cork" x="374" y="130" width="20" height="12" rx="3"/>
-        </g>
-        <rect class="shelf-board" x="10" y="194" width="420" height="12" rx="3"/>
-        <path class="shelf-bracket" d="M44 206v14M396 206v14"/>
-        <g class="shelf-tag">
-          <path d="M120 30h158l14 16-14 16H120z"/>
-          <circle cx="134" cy="46" r="4"/>
-          <text x="210" y="52" text-anchor="middle">Без рецепта</text>
-        </g>
-      </svg>
-    </figure>
-  </section>
-
-  <div class="layout">
-    <main class="shop" id="main" data-shell>
-      <div class="shop-head">
-        <h2 class="section-title" id="catalog-heading" tabindex="-1">Каталог</h2>
-        <p class="results-count" data-testid="results-count" aria-live="polite">Загружаем каталог…</p>
-      </div>
-
-      <form class="toolbar" role="search" aria-label="Поиск и фильтры" data-filters>
-        <div class="field field-search">
-          <label class="field-label" for="search">Поиск по названию</label>
-          <input class="input" id="search" name="query" type="search" data-testid="search-input" placeholder="Например, зелье" autocomplete="off" spellcheck="false">
-        </div>
-        <div class="field">
-          <label class="field-label" for="category">Категория</label>
-          <select class="input select" id="category" name="category" data-testid="category-select">
-            <option value="">Все категории</option>
-          </select>
-        </div>
-        <div class="field">
-          <label class="field-label" for="sort">Сортировка</label>
-          <select class="input select" id="sort" name="sort" data-testid="sort-select">
-            <option value="default">По порядку</option>
-            <option value="price-asc">Сначала дешевле</option>
-            <option value="price-desc">Сначала дороже</option>
-          </select>
-        </div>
-        <button class="button button-quiet" type="button" data-testid="filters-reset">Сбросить</button>
-      </form>
-
-      <div class="tabs" role="tablist" aria-label="Что показать">
-        <button class="tab" type="button" role="tab" id="tab-all" aria-selected="true" aria-controls="catalog-panel" data-testid="view-all" data-view="all">Все товары</button>
-        <button class="tab" type="button" role="tab" id="tab-favorites" aria-selected="false" aria-controls="catalog-panel" tabindex="-1" data-testid="view-favorites" data-view="favorites">Избранное <span class="tab-count" data-testid="favorites-count">0</span></button>
-      </div>
-
-      <div class="catalog-panel" id="catalog-panel" role="tabpanel" aria-labelledby="tab-all">
-        <ul class="catalog" data-testid="catalog" aria-label="Товары"></ul>
-        <div class="empty-results" data-testid="empty-results" hidden>
-          <svg class="empty-art" viewBox="0 0 120 120" aria-hidden="true"><path d="M48 18h24v22l26 44a14 14 0 0 1-12 21H34a14 14 0 0 1-12-21l26-44z"/><path d="M36 78h48"/><circle cx="54" cy="90" r="3"/><circle cx="68" cy="94" r="2"/></svg>
-          <p class="empty-title" data-empty-title>Ничего не найдено</p>
-          <p class="empty-text" data-empty-text>Проверьте написание или сбросьте фильтры.</p>
-          <button class="button button-primary" type="button" data-empty-action>Сбросить фильтры</button>
-        </div>
-      </div>
-    </main>
-
-    <aside class="cart" id="cart" data-testid="cart" aria-labelledby="cart-title">
-      <div class="slip">
-        <div class="slip-head">
-          <div>
-            <h2 class="slip-title" id="cart-title" tabindex="-1">Корзина</h2>
-            <p class="slip-meta" data-cart-meta>Рецепт пока пуст</p>
+  <main id="main" tabindex="-1">
+    <div id="storefront">
+      <div class="hero-band">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-copy">
+            <p class="hero-kicker">Ночная лавка алхимика</p>
+            <h1 class="hero-title" id="hero-title">Ступка<br><span>и колба</span></h1>
+            <p class="hero-lead">Редкие ингредиенты, зелья, свитки и артефакты для домашней алхимии.</p>
+            <div class="hero-actions">
+              <a class="button button-primary hero-link" href="#catalog-heading">Смотреть коллекцию <span aria-hidden="true">↘</span></a>
+              <a class="familiar-link" href="#familiars">Познакомиться с фамильярами</a>
+            </div>
           </div>
-          <button class="icon-button slip-close" type="button" data-testid="cart-close" aria-label="Закрыть корзину">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
-          </button>
+          <figure class="hero-shelf">
+            <div class="hero-stage model-stage" data-element="fire" data-hero-model="healing-potion" data-model-name="Зелье исцеления">
+              <span class="hero-orbit" aria-hidden="true"></span>
+              <svg class="hero-sigil" viewBox="0 0 320 320" fill="none" aria-hidden="true">
+                <circle cx="160" cy="160" r="139" stroke-dasharray="1 9"/>
+                <path d="M160 32 271 224H49L160 32ZM160 288 49 96h222L160 288Z"/>
+                <path d="M160 8v30m0 244v30M8 160h30m244 0h30M54 54l18 18m176 176 18 18M266 54l-18 18M72 248l-18 18"/>
+                <circle cx="160" cy="160" r="6"/><circle cx="160" cy="160" r="17" stroke-dasharray="2 5"/>
+              </svg>
+              <span class="hero-stardust" aria-hidden="true"></span>
+              <img class="hero-familiar hero-phoenix" src="./assets/familiars/phoenix.svg" alt="" width="320" height="250">
+              <img class="hero-familiar hero-dragon" src="./assets/familiars/moon-dragon.svg" alt="" width="320" height="250">
+              <img class="hero-image" src="./assets/products/healing-potion.svg" width="160" height="160" alt="Зелье исцеления">
+              <span class="hero-index" data-hero-index aria-hidden="true">ЭКЗЕМПЛЯР 04</span>
+              <button class="model-spell" type="button" data-model-spell><span aria-hidden="true">✦</span> Оживить</button>
+              <span class="model-note" aria-hidden="true">↔ Вращайте модель</span>
+            </div>
+            <figcaption class="hero-caption">
+              <span data-hero-caption aria-live="polite">Зелье исцеления</span>
+              <span>Алхимический круг</span>
+              <div class="hero-elements" role="group" aria-label="Печати алхимического круга">
+                <button class="hero-seal" type="button" data-seal="fire" aria-pressed="true"><span aria-hidden="true">✦</span> Огонь</button>
+                <button class="hero-seal" type="button" data-seal="moon" aria-pressed="false"><span aria-hidden="true">☾</span> Луна</button>
+                <button class="hero-seal" type="button" data-seal="wild" aria-pressed="false"><span aria-hidden="true">✧</span> Лес</button>
+              </div>
+            </figcaption>
+          </figure>
+        </section>
+      </div>
+
+      <section class="shop layout" aria-labelledby="catalog-heading">
+        <div class="shop-head">
+          <h2 class="section-title" id="catalog-heading" tabindex="-1">Каталог</h2>
+          <p class="results-count" data-testid="results-count" aria-live="polite">Загружаем каталог…</p>
         </div>
 
-        <div class="cart-empty" data-testid="cart-empty">
-          <p class="cart-empty-title">Корзина пуста</p>
-          <p class="cart-empty-text">Добавьте товар из каталога — он появится здесь.</p>
-        </div>
-        <ul class="cart-lines" data-cart-lines aria-label="Товары в корзине" hidden></ul>
-
-        <form class="promo" data-promo-form novalidate>
-          <label class="field-label" for="promo">Промокод</label>
-          <div class="promo-row">
-            <input class="input promo-input" id="promo" name="promo" data-testid="promo-input" autocomplete="off" spellcheck="false" placeholder="ALCHEMY10" aria-describedby="promo-hint promo-message">
-            <button class="button button-ink" type="submit" data-testid="promo-apply">Применить</button>
+        <form class="toolbar" role="search" aria-label="Поиск и фильтры" data-filters>
+          <div class="field field-search">
+            <label class="field-label" for="search">Поиск по названию</label>
+            <input class="input" id="search" name="query" type="search" data-testid="search-input" placeholder="Например, зелье" autocomplete="off" spellcheck="false">
           </div>
-          <p class="promo-hint" id="promo-hint">Попробуйте ALCHEMY10</p>
-          <p class="promo-message" id="promo-message" data-testid="promo-message" data-state="" role="status"></p>
+          <div class="field">
+            <label class="field-label" for="category">Категория</label>
+            <select class="input select" id="category" name="category" data-testid="category-select">
+              <option value="">Все категории</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="field-label" for="sort">Сортировка</label>
+            <select class="input select" id="sort" name="sort" data-testid="sort-select">
+              <option value="default">По порядку</option>
+              <option value="price-asc">Сначала дешевле</option>
+              <option value="price-desc">Сначала дороже</option>
+            </select>
+          </div>
+          <button class="button button-quiet" type="button" data-testid="filters-reset">Сбросить</button>
         </form>
 
-        <div class="totals">
-          <p class="total-row" data-testid="cart-subtotal"><span>Товары:</span> <span class="total-amount" data-amount>0&nbsp;₽</span></p>
-          <p class="total-row total-discount" data-testid="cart-discount" hidden><span>Скидка:</span> <span class="total-amount" data-amount>−0&nbsp;₽</span></p>
-          <p class="total-row total-grand" data-testid="cart-total"><span>Итого:</span> <span class="total-amount" data-amount>0&nbsp;₽</span></p>
-          <button class="link-button" type="button" data-testid="promo-remove" hidden>Убрать промокод</button>
-          <div class="stamp" data-stamp hidden aria-hidden="true">
-            <span class="stamp-value">−10%</span>
-            <span class="stamp-code">ALCHEMY10</span>
-          </div>
+        <div class="tabs" role="tablist" aria-label="Что показать">
+          <button class="tab" type="button" role="tab" id="tab-all" aria-selected="true" aria-controls="catalog-panel" data-testid="view-all" data-view="all">Все товары</button>
+          <button class="tab" type="button" role="tab" id="tab-favorites" aria-selected="false" aria-controls="catalog-panel" tabindex="-1" data-testid="view-favorites" data-view="favorites">Избранное <span class="tab-count" data-testid="favorites-count">0</span></button>
         </div>
 
-        <button class="button button-primary checkout" type="button" data-testid="checkout" hidden>Оформить заказ</button>
-        <p class="checkout-note" data-checkout-note hidden>Оформление заказа работает, когда сайт запущен с сервером: <code>go run .</code></p>
-      </div>
-    </aside>
-  </div>
+        <div class="catalog-panel" id="catalog-panel" role="tabpanel" aria-labelledby="tab-all">
+          <ul class="catalog" data-testid="catalog" aria-label="Товары"></ul>
+          <div class="empty-results" data-testid="empty-results" hidden>
+            <svg class="empty-art" viewBox="0 0 120 120" aria-hidden="true"><path d="M48 18h24v22l26 44a14 14 0 0 1-12 21H34a14 14 0 0 1-12-21l26-44z"/><path d="M36 78h48"/><circle cx="54" cy="90" r="3"/><circle cx="68" cy="94" r="2"/></svg>
+            <p class="empty-title" data-empty-title>Ничего не найдено</p>
+            <p class="empty-text" data-empty-text>Проверьте написание или сбросьте фильтры.</p>
+            <button class="button button-primary" type="button" data-empty-action>Сбросить фильтры</button>
+          </div>
+        </div>
+      </section>
 
-  <footer class="footer" data-shell>
+      <section class="familiars layout" id="familiars" aria-labelledby="familiars-heading">
+        <div class="familiar-heading">
+          <h2 class="section-title" id="familiars-heading">Фамильяры лавки</h2>
+          <p>У каждого свой характер и своё заклинание.</p>
+        </div>
+        <div class="familiar-grid">
+          <article class="familiar" data-familiar="fire">
+            <div class="familiar-copy">
+              <h3>Огненный феникс</h3>
+              <p>Взмах крыльев рассыпает тёплые искры.</p>
+              <button class="familiar-cast" type="button" data-familiar-cast><span aria-hidden="true">✦</span> Зажечь перья</button>
+            </div>
+            <div class="familiar-art" aria-hidden="true">
+              <span class="familiar-burst"></span>
+              <img src="./assets/familiars/phoenix.svg" alt="" width="320" height="250">
+            </div>
+          </article>
+          <article class="familiar" data-familiar="moon">
+            <div class="familiar-copy">
+              <h3>Лунный дракон</h3>
+              <p>Выдыхает холодное лунное сияние.</p>
+              <button class="familiar-cast" type="button" data-familiar-cast><span aria-hidden="true">✧</span> Позвать дракона</button>
+            </div>
+            <div class="familiar-art" aria-hidden="true">
+              <span class="familiar-burst"></span>
+              <img src="./assets/familiars/moon-dragon.svg" alt="" width="320" height="250">
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+
+    <section class="cart layout" id="cart" data-testid="cart" aria-labelledby="cart-title" tabindex="-1" hidden>
+      <button class="button button-quiet cart-back" type="button" data-testid="cart-close"><span aria-hidden="true">←</span> В каталог</button>
+      <header class="cart-page-heading">
+        <h1 class="slip-title" id="cart-title" tabindex="-1">Корзина</h1>
+        <p class="slip-meta" data-cart-meta>Пока пусто</p>
+      </header>
+
+      <div class="cart-grid">
+        <section class="cart-content" aria-labelledby="cart-items-title">
+          <h2 class="cart-panel-title" id="cart-items-title">Товары</h2>
+          <div class="cart-empty" data-testid="cart-empty">
+            <p class="cart-empty-title">Корзина пуста</p>
+            <p class="cart-empty-text">Выберите ингредиенты, зелья или артефакты в каталоге.</p>
+          </div>
+          <ul class="cart-lines" data-cart-lines aria-label="Товары в корзине" hidden></ul>
+        </section>
+
+        <aside class="slip" aria-labelledby="summary-title">
+          <h2 class="cart-panel-title" id="summary-title">Сумма заказа</h2>
+
+          <form class="promo" data-promo-form novalidate>
+            <label class="field-label" for="promo">Промокод</label>
+            <div class="promo-row">
+              <input class="input promo-input" id="promo" name="promo" data-testid="promo-input" autocomplete="off" spellcheck="false" placeholder="ALCHEMY10" aria-describedby="promo-hint promo-message">
+              <button class="button button-ink" type="submit" data-testid="promo-apply">Применить</button>
+            </div>
+            <p class="promo-hint" id="promo-hint">Попробуйте ALCHEMY10</p>
+            <p class="promo-message" id="promo-message" data-testid="promo-message" data-state="" role="status"></p>
+          </form>
+
+          <div class="totals">
+            <p class="total-row" data-testid="cart-subtotal"><span>Товары:</span> <span class="total-amount" data-amount>0&nbsp;₽</span></p>
+            <p class="total-row total-discount" data-testid="cart-discount" hidden><span>Скидка:</span> <span class="total-amount" data-amount>−0&nbsp;₽</span></p>
+            <p class="total-row total-grand" data-testid="cart-total"><span>Итого:</span> <span class="total-amount" data-amount>0&nbsp;₽</span></p>
+            <button class="link-button" type="button" data-testid="promo-remove" hidden>Убрать промокод</button>
+            <div class="stamp" data-stamp hidden aria-hidden="true">
+              <span class="stamp-value">−10%</span>
+              <span class="stamp-code">ALCHEMY10</span>
+            </div>
+          </div>
+
+          <button class="button button-primary checkout" type="button" data-testid="checkout" hidden>Оформить заказ</button>
+          <p class="checkout-note" data-checkout-note hidden>Демо-режим. Корзина сохраняется в этом браузере.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
     <p>Учебный магазин воркшопа по AI-разработке. Товары и цены вымышленные, оплата не принимается.</p>
   </footer>
 
-  <div class="scrim" data-scrim hidden></div>
   <div class="toasts" data-toasts aria-live="polite"></div>
 
   <dialog class="order-dialog" data-testid="order-confirmation" aria-labelledby="order-title">
@@ -189,9 +233,11 @@
     <li class="product" data-testid="product-card">
       <article class="label">
         <figure class="product-figure">
-          <div class="product-art">
+          <div class="product-art model-stage">
             <img class="product-image" data-testid="product-image" width="160" height="160" loading="lazy" decoding="async" alt="">
             <span class="product-fallback" aria-hidden="true"></span>
+            <button class="model-spell" type="button" data-model-spell aria-label="Оживить модель"><span aria-hidden="true">✦</span></button>
+            <span class="model-note" aria-hidden="true">↔ 3D</span>
           </div>
           <figcaption class="product-caption">
             <p class="product-meta"><span class="product-number" data-number></span><span class="product-category" data-category></span></p>

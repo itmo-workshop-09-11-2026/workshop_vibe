@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 250" fill="none">
+  <defs>
+    <linearGradient id="wing" x1="195" y1="148" x2="223" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5555AE"/><stop offset=".58" stop-color="#9F7AF2"/><stop offset="1" stop-color="#72EBEE"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="77" y1="72" x2="236" y2="209" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#80F3E6"/><stop offset=".53" stop-color="#4789B7"/><stop offset="1" stop-color="#7655A9"/>
+    </linearGradient>
+    <linearGradient id="belly" x1="108" y1="122" x2="222" y2="192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E1E7AF"/><stop offset="1" stop-color="#6FE4DF"/>
+    </linearGradient>
+  </defs>
+  <style>
+    .wing { transform-box: view-box; transform-origin: 181px 141px; animation: wings 2.9s ease-in-out infinite alternate }
+    .tip { transform-box: view-box; transform-origin: 244px 162px; animation: tail 2s ease-in-out infinite alternate }
+    @keyframes wings { from { transform: rotate(-9deg) scaleY(.9) } to { transform: rotate(8deg) scaleY(1.05) } }
+    @keyframes tail { from { transform: rotate(-8deg) } to { transform: rotate(10deg) } }
+    @media (prefers-reduced-motion: reduce) { .wing, .tip { animation: none } }
+  </style>
+  <path d="M188 147C215 128 241 108 258 76c-1 22-8 37-15 53 14-6 27-7 44-4-20 10-27 24-33 42-15-12-32-15-51-12l-15-8Z" fill="#4F4E96" stroke="#91BDEB" stroke-width="1.4"/>
+  <path d="M141 111l2-22 13 13 9-18 10 20 16-10 2 21 20-1-8 18-64-21Z" fill="#A98AF5" stroke="#C1B8FA" stroke-width="1.2"/>
+  <path d="M97 109c5 7 12 8 23 8 26-1 29-19 58-13 35 6 54 36 38 62-12 19-32 23-42 11-8-11 4-22 15-20-22 14 8 27 32 19 10-3 20-9 29-18-5 19-19 36-43 43-27 8-59-3-62-26-2-14 7-28 19-33-19-8-39 1-57-7-9-4-15-15-10-26Z" fill="url(#skin)" stroke="#9BE6ED" stroke-width="1.5"/>
+  <path d="M110 122c20 5 44-12 69 0 12 5 16 14 14 23-8-8-18-10-29-7-22-9-35 1-51-4-4-2-6-5-3-12Z" fill="url(#belly)"/>
+  <path d="M118 123l4 12m12-13 4 11m12-14 4 13m12-13 3 14m11-9 3 12" stroke="#4B8B9C" stroke-width="1.5" opacity=".75"/>
+  <path class="tip" d="M241 168c9-13 12-29 6-41 11 3 18 10 21 24 7-2 13-1 20 3-12 5-20 12-27 22l-20-8Z" fill="#9371DE" stroke="#C0B0F7" stroke-width="1.4"/>
+  <path d="M173 148c-10 10-12 22-5 29-9 2-16-1-20-7-7 3-13 0-14-5l9-1 13-17m54 17c-3 12-10 18-20 20l-6 9 10-2c9 2 20-4 24-10" fill="#589ABF" stroke="#A3DBEF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  <g class="wing">
+    <path d="M181 141C167 120 163 94 168 63c15 19 31 22 48 2l12-24c6 31 20 44 42 44-17 12-23 27-21 48-19-7-36-2-49 16l-19-8Z" fill="url(#wing)" stroke="#C6B5FB" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M183 140c0-29 14-53 45-99m-33 104c17-24 29-40 75-60m-84 52c-14-25-17-47-18-74" stroke="#CDF9FD" stroke-width="1.8" stroke-linecap="round" opacity=".78"/>
+    <path d="M195 129c11-26 25-40 43-53-11 22-12 34-13 44-9 0-21 4-30 9Z" fill="#8BF3EE" opacity=".39"/>
+  </g>
+  <path d="M99 116c-15-4-24-12-28-25-6-2-16-3-24-1l-12 12c9 8 24 10 34 5 9 15 26 23 42 18 8-3 13-8 13-16l-11-17c-4-10-9-19-20-26 2 13-2 21-11 25" fill="url(#skin)" stroke="#ADEBEE" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M83 88C71 73 62 62 51 62c4 8 5 17 4 26l12 4 16-4Zm13 3c1-13 6-22 16-28l-3 26-13 2Z" fill="#E1C184" stroke="#FFF3C3" stroke-width="1.2"/>
+  <path d="M47 105c8 3 15 1 21-3m-20-7 5 1m31 3c3 2 6 2 10 0" stroke="#273859" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M69 96c3-4 7-5 12-4-2 5-7 8-12 4Z" fill="#EBFFC8"/>
+  <circle cx="76" cy="94" r="1.9" fill="#272145"/>
+  <g fill="#C2F7FC">
+    <path d="M44 128l1.5 5.5 5.5 1.5-5.5 1.5L44 143l-1.5-6.5-5.5-1.5 5.5-1.5Z"/>
+    <path d="M277 56l2 6 6 2-6 2-2 6-2-6-6-2 6-2Z"/>
+    <path d="M115 57l1.5 4.5 4.5 1.5-4.5 1.5-1.5 4.5-1.5-4.5-4.5-1.5 4.5-1.5Z"/>
+    <circle cx="112" cy="163" r="2.6"/><circle cx="291" cy="108" r="2.1"/><circle cx="81" cy="142" r="1.6"/>
+  </g>
+</svg>

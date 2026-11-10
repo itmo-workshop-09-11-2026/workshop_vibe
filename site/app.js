@@ -18,14 +18,15 @@
   });
   const MINUS = "−";
 
-  const sheetQuery = root.matchMedia("(max-width: 1023.98px)");
+  const reducedMotion = root.matchMedia("(prefers-reduced-motion: reduce)");
   const darkQuery = root.matchMedia("(prefers-color-scheme: dark)");
 
   const find = (selector, scope = doc) => scope.querySelector(selector);
   const byTestId = (id, scope = doc) => find(`[data-testid="${id}"]`, scope);
 
   const el = {
-    shell: [...doc.querySelectorAll("[data-shell]")],
+    skipLink: find(".skip-link"),
+    storefront: find("#storefront"),
     modeBadge: byTestId("mode-badge"),
     themeToggle: byTestId("theme-toggle"),
     cartToggle: byTestId("cart-toggle"),
@@ -62,7 +63,6 @@
     stamp: find("[data-stamp]"),
     checkout: byTestId("checkout"),
     checkoutNote: find("[data-checkout-note]"),
-    scrim: find("[data-scrim]"),
     toasts: find("[data-toasts]"),
     orderDialog: byTestId("order-confirmation"),
     orderId: byTestId("order-id"),
@@ -78,6 +78,7 @@
   let previousCount = 0;
   let shownError = null;
   let renderedCategories = "";
+  let catalogScroll = 0;
 
   function plural(count, forms) {
     const mod10 = count % 10;
@@ -139,6 +140,7 @@
     const figure = find(".product-figure", node);
     image.addEventListener("error", () => figure.classList.add("is-broken"));
     image.addEventListener("load", () => figure.classList.remove("is-broken"));
+    Shop.productView?.mount(find(".model-stage", figure), product.id, product.name);
     return node;
   }
 
@@ -260,7 +262,7 @@
     const isEmpty = cart.lines.length === 0;
     el.cartLines.hidden = isEmpty;
     el.cartEmpty.hidden = !isEmpty;
-    setText(el.cartMeta, isEmpty ? "Рецепт пока пуст" : `${countGoods(cart.count)} в рецепте`);
+    setText(el.cartMeta, isEmpty ? "Пока пусто" : `${countGoods(cart.count)} в корзине`);
 
     setAmount(el.subtotal, core.formatPrice(cart.subtotal));
     setAmount(el.total, core.formatPrice(cart.total));
@@ -404,42 +406,46 @@
     return store.getState().products.find((product) => product.id === id)?.name ?? "Товар";
   }
 
-  function isSheetOpen() {
-    return el.cart.classList.contains("is-open");
-  }
+  function renderScreen() {
+    const showCart = root.location.hash === "#cart";
+    if (showCart === !el.cart.hidden) return;
 
-  function openSheet() {
-    el.cart.classList.add("is-open");
-    el.scrim.hidden = false;
-    doc.body.classList.add("has-sheet");
-    el.shell.forEach((region) => {
-      region.inert = true;
-    });
-    el.cartToggle.setAttribute("aria-expanded", "true");
-    root.requestAnimationFrame(() => el.cartClose.focus());
-  }
+    if (showCart) catalogScroll = root.scrollY;
+    el.storefront.hidden = showCart;
+    el.cart.hidden = !showCart;
+    doc.body.dataset.screen = showCart ? "cart" : "catalog";
+    el.skipLink.setAttribute("href", showCart ? "#cart" : "#main");
+    el.cartToggle.setAttribute("aria-expanded", String(showCart));
 
-  function closeSheet({ restoreFocusTo = el.cartToggle } = {}) {
-    if (!isSheetOpen()) {
-      return;
-    }
-    el.cart.classList.remove("is-open");
-    el.scrim.hidden = true;
-    doc.body.classList.remove("has-sheet");
-    el.shell.forEach((region) => {
-      region.inert = false;
-    });
-    el.cartToggle.setAttribute("aria-expanded", "false");
-    restoreFocusTo?.focus({ preventScroll: true });
+    root.scrollTo(0, showCart ? 0 : catalogScroll);
+    (showCart ? el.cartTitle : el.cartToggle).focus({ preventScroll: true });
   }
 
   function onCartToggle() {
-    if (sheetQuery.matches) {
-      openSheet();
+    if (!el.cart.hidden) return;
+    root.history.pushState({ shopCart: true }, "", "#cart");
+    renderScreen();
+  }
+
+  function closeCart() {
+    if (el.cart.hidden) return;
+    if (root.history.state?.shopCart) {
+      root.history.back();
       return;
     }
-    el.cart.scrollIntoView({ behavior: "smooth", block: "start" });
-    el.cartTitle.focus({ preventScroll: true });
+    root.history.replaceState(null, "", "#catalog-heading");
+    renderScreen();
+    el.catalogHeading.scrollIntoView();
+    el.catalogHeading.focus({ preventScroll: true });
+  }
+
+  function animatePress(event) {
+    const control = event.target.closest("button, .hero-link");
+    if (!control || control.disabled || reducedMotion.matches) return;
+    control.animate(
+      [{ transform: "scale(0.96)" }, { transform: "scale(1.015)", offset: 0.55 }, { transform: "scale(1)" }],
+      { duration: 220, easing: "cubic-bezier(0.2, 0.75, 0.25, 1)" }
+    );
   }
 
   function onCatalogClick(event) {
@@ -451,6 +457,7 @@
     const id = card.dataset.productId;
     if (button.dataset.action === "add") {
       actions.add(id);
+      Shop.productView?.cast(find(".model-stage", card));
       showToast(`«${productName(id)}» в корзине`);
     }
     if (button.dataset.action === "favorite") {
@@ -518,7 +525,6 @@
       setText(el.orderTotal, core.formatPrice(result.order.total));
       el.promoMessage.dataset.state = "";
       setText(el.promoMessage, "");
-      closeSheet({ restoreFocusTo: null });
       el.orderDialog.showModal();
       return;
     }
@@ -589,16 +595,15 @@
     el.promoRemove.addEventListener("click", onPromoRemove);
     el.checkout.addEventListener("click", onCheckout);
     el.cartToggle.addEventListener("click", onCartToggle);
-    el.cartClose.addEventListener("click", () => closeSheet());
-    el.scrim.addEventListener("click", () => closeSheet());
+    el.cartClose.addEventListener("click", closeCart);
+    root.addEventListener("popstate", renderScreen);
+    root.addEventListener("hashchange", renderScreen);
+    doc.addEventListener("click", animatePress);
     el.orderClose.addEventListener("click", () => el.orderDialog.close());
     el.themeToggle.addEventListener("click", onThemeToggle);
     darkQuery.addEventListener("change", renderTheme);
-    sheetQuery.addEventListener("change", () => closeSheet({ restoreFocusTo: null }));
     doc.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && isSheetOpen()) {
-        closeSheet();
-      }
+      if (event.key === "Escape" && !el.orderDialog.open) closeCart();
     });
   }
 
@@ -617,6 +622,7 @@
   async function boot() {
     renderTheme();
     bindEvents();
+    renderScreen();
     store.subscribe(render);
     const { products, mode } = await loadCatalog();
     store.init({ products, mode });
